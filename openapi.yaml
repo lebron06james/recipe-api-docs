@@ -1,0 +1,72 @@
+openapi: 3.0.3
+
+info:
+  title: User Login
+  description: Docs on using the User Login API.
+  version: 0.1.0
+  
+externalDocs:
+  description: "External docs coming soon"
+  url: https://recipe.op-vms.gov.ph/docs
+  
+servers:
+- url: https://recipe.op-vms.gov.ph/
+  description: User Login
+
+paths:
+  "/api/user/login":
+    post:
+      tags: ["login"]
+      summary: Log the user in.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loginRequest"
+        required: true
+      responses:
+        "200":
+          description: All went well and the user has successfully logged-in.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/loginResponse"
+        "400":
+          description: There was a problem with the login request. Further info of the error are available in the error message. 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/loginError"
+
+components:
+  schemas:
+    loginResponse:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email address of the user
+        username:
+          type: string
+          description: Username of the user
+        usertype:
+          type: string
+          description: Usertype of the user
+        token:
+          type: string
+          description: JWT token to be issued on guarded endpoints
+    loginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email address to log in. Please use a valid email here
+        password:
+          type: string
+          description: hard to guess password for logging in
+    loginError:
+      type: object
+      properties:
+        user_login_error:
+          type: string
+          description: Error message available here
